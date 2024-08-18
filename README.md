@@ -73,5 +73,36 @@ index = faiss.IndexBinaryFlat(d)  # d 是向量的比特长度
 index = faiss.IndexFlatIP(d)
 ```
 
-## 算法介绍
-### 暴力搜素法
+## 算法
+在近似最近邻（ANN）搜索中，要求高精准度和低时延的情况下，一些算法表现优越。以下是基于这些标准的推荐排序，排序顺序从推荐值高到低。
+
+1. HNSW (Hierarchical Navigable Small World Graphs)
+优点: 兼具高精度和低时延，尤其在高维数据上表现出色。具有可调节的搜索宽度，可以在速度和精度之间进行平衡。广泛应用于各种场景。
+推荐值: ★★★★★
+2. IVF-HNSW (Inverted File with HNSW)
+优点: 结合了倒排文件（IVF）和 HNSW 的优点，通过分区减少搜索范围，并使用 HNSW 图在分区内进行高效搜索。适合大规模数据集。
+推荐值: ★★★★☆
+3. IVF-PQ (Inverted File with Product Quantization)
+优点: 结合倒排文件和产品量化，IVF-PQ 能够在大规模数据集上实现高效、内存占用低的 ANN 搜索，且可以通过增加 nprobe 提高召回率。
+推荐值: ★★★★☆
+4. ScaNN (Scalable Nearest Neighbors)
+优点: 由 Google 开发，专为高精度和低时延场景设计。通过优化分区和量化策略，ScaNN 能够在大规模数据上实现卓越的性能。
+推荐值: ★★★★☆
+5. NGT (Neighborhood Graph and Tree)
+优点: NGT 的图结构能够有效地实现高精度搜索，结合了图和树结构，适合动态更新的数据集。NGT-qg 变体通过量化进一步优化了速度和内存使用。
+推荐值: ★★★★☆
+6. Faiss-IVFPQFS (Faiss Inverted File with Fine Quantization and Product Quantization)
+优点: Faiss 框架的高级配置，结合细粒度量化和产品量化，提高了精度和查询速度。适用于超大规模数据集。
+推荐值: ★★★★☆
+7. Annoy (Approximate Nearest Neighbors Oh Yeah)
+优点: 使用多个随机树来构建索引，适合静态数据集，查询时延较低，能够在大规模数据集上保持较高的精度。
+推荐值: ★★★☆☆
+8. FLANN (Fast Library for Approximate Nearest Neighbors)
+优点: FLANN 提供了自动调优功能，能够根据数据集选择最合适的算法和参数。适合不同规模的数据集，查询速度快。
+推荐值: ★★★☆☆
+9. PQ-Search (Product Quantization Search)
+优点: 专注于内存效率和搜索速度，适合对内存占用敏感的大规模数据集。虽然在精度上略逊于 IVF-PQ，但在低延迟场景下表现良好。
+推荐值: ★★★☆☆
+10. LSH (Locality Sensitive Hashing)
+优点: 使用哈希函数将相似的向量映射到相同的桶中，适合非常高维的数据和需要极低时延的场景。尽管召回率在某些情况下较低，但时延非常短。
+推荐值: ★★★☆☆
